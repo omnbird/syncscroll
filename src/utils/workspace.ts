@@ -1,8 +1,7 @@
-import { MarkdownView } from 'obsidian';
+import { MarkdownView, Workspace } from 'obsidian';
 import { SyncPair } from '../types';
 
-export function findSplitViewPair(): SyncPair | null {
-	const workspace = app.workspace;
+export function findSplitViewPair(workspace: Workspace): SyncPair | null {
 	const leaves = workspace.getLeavesOfType('markdown');
 
 	if (leaves.length < 2) return null;
@@ -20,7 +19,7 @@ export function findSplitViewPair(): SyncPair | null {
 			const view1 = views[i];
 			const view2 = views[j];
 
-			if (areViewsSideBySide(view1, view2)) {
+			if (view1 && view2 && areViewsSideBySide(view1, view2)) {
 				const rect1 = view1.containerEl.getBoundingClientRect();
 				const rect2 = view2.containerEl.getBoundingClientRect();
 

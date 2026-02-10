@@ -1,4 +1,4 @@
-import { Notice } from 'obsidian';
+import { Notice, Workspace } from 'obsidian';
 import { SyncPair, ScrollState } from './types';
 import { findSplitViewPair } from './utils/workspace';
 
@@ -9,25 +9,26 @@ export class SyncScrollManager {
 	private leftScroller: HTMLElement | null = null;
 	private rightScroller: HTMLElement | null = null;
 	private isSyncing = false;
-	// 记录两边的百分比偏移量（用于相对同步）
 	private percentageOffset: number = 0;
+	private workspace: Workspace | null = null;
 
-	start(): void {
+	start(workspace: Workspace): void {
 		if (this.isActive) {
 			this.stop();
 		}
 
-		this.syncPair = findSplitViewPair();
+		this.workspace = workspace;
+		this.syncPair = findSplitViewPair(workspace);
 
 		if (!this.syncPair) {
-			new Notice('未检测到左右分屏，请先将两个文件左右分屏显示');
+			new Notice('No split view detected. Please open two files side by side first.');
 			return;
 		}
 
 		this.isActive = true;
-		this.percentageOffset = 0; // 重置偏移量
+		this.percentageOffset = 0;
 		this.setupScrollSync();
-		new Notice('同步滚动已开启');
+		new Notice('SyncScroll enabled');
 	}
 
 	stop(): void {
@@ -44,25 +45,22 @@ export class SyncScrollManager {
 		this.rightScroller = null;
 		this.syncPair = null;
 		this.percentageOffset = 0;
-		new Notice('同步滚动已关闭');
+		this.workspace = null;
+		new Notice('SyncScroll disabled');
 	}
 
 	isRunning(): boolean {
 		return this.isActive;
 	}
 
-	// 临时暂停同步（用于行同步时）
 	pauseSync(): void {
 		this.isSyncing = true;
 	}
 
-	// 恢复同步，并重新计算偏移量
 	resumeSync(): void {
-		// 重新计算当前两边的百分比偏移量
 		if (this.leftScroller && this.rightScroller) {
 			const leftState = this.getScrollState(this.leftScroller);
 			const rightState = this.getScrollState(this.rightScroller);
-			// 偏移量 = 右边百分比 - 左边百分比
 			this.percentageOffset = rightState.percentage - leftState.percentage;
 		}
 		this.isSyncing = false;
@@ -99,7 +97,6 @@ export class SyncScrollManager {
 
 		this.isSyncing = true;
 		const state = this.getScrollState(this.leftScroller);
-		// 应用偏移量：右边的目标百分比 = 左边百分比 + 偏移量
 		const targetState: ScrollState = {
 			percentage: state.percentage + this.percentageOffset
 		};
@@ -115,7 +112,6 @@ export class SyncScrollManager {
 
 		this.isSyncing = true;
 		const state = this.getScrollState(this.rightScroller);
-		// 应用偏移量：左边的目标百分比 = 右边百分比 - 偏移量
 		const targetState: ScrollState = {
 			percentage: state.percentage - this.percentageOffset
 		};
@@ -136,7 +132,6 @@ export class SyncScrollManager {
 
 	private applyScrollState(scroller: HTMLElement, state: ScrollState): void {
 		const scrollHeight = scroller.scrollHeight - scroller.clientHeight;
-		// 限制百分比在 0-1 范围内
 		const clampedPercentage = Math.max(0, Math.min(1, state.percentage));
 		scroller.scrollTop = clampedPercentage * scrollHeight;
 	}

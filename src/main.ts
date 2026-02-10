@@ -14,24 +14,25 @@ export default class SyncScrollPlugin extends Plugin {
 		this.syncScrollManager = new SyncScrollManager();
 		this.lineSyncManager = new LineSyncManager();
 
-		// 开启同步滚动
+		// Enable SyncScroll
 		this.addCommand({
 			id: 'enable-sync-scroll',
-			name: '开启同步滚动',
+			name: 'Enable',
 			callback: () => {
-				this.syncScrollManager.start();
-				// 传入暂停/恢复同步的回调
+				this.syncScrollManager.start(this.app.workspace);
+				// Pass pause/resume sync callbacks
 				this.lineSyncManager.start(
+					this.app.workspace,
 					() => this.syncScrollManager.pauseSync(),
 					() => this.syncScrollManager.resumeSync()
 				);
 			},
 		});
 
-		// 关闭同步滚动
+		// Disable SyncScroll
 		this.addCommand({
 			id: 'disable-sync-scroll',
-			name: '关闭同步滚动',
+			name: 'Disable',
 			callback: () => {
 				this.syncScrollManager.stop();
 				this.lineSyncManager.stop();

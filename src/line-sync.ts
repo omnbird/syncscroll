@@ -1,4 +1,4 @@
-import { Editor, MarkdownView } from 'obsidian';
+import { Editor, MarkdownView, Workspace } from 'obsidian';
 import { findSplitViewPair } from './utils/workspace';
 
 export class LineSyncManager {
@@ -9,10 +9,12 @@ export class LineSyncManager {
 	private lastRightSelection: string = '';
 	private pauseSyncCallback: (() => void) | null = null;
 	private resumeSyncCallback: (() => void) | null = null;
+	private workspace: Workspace | null = null;
 
-	start(pauseSync?: () => void, resumeSync?: () => void): void {
+	start(workspace: Workspace, pauseSync?: () => void, resumeSync?: () => void): void {
 		if (this.isActive) return;
 		this.isActive = true;
+		this.workspace = workspace;
 		this.lastLeftSelection = '';
 		this.lastRightSelection = '';
 		this.pauseSyncCallback = pauseSync || null;
@@ -30,13 +32,14 @@ export class LineSyncManager {
 		this.lastRightSelection = '';
 		this.pauseSyncCallback = null;
 		this.resumeSyncCallback = null;
+		this.workspace = null;
 	}
 
 	private registerSelectionListener(): void {
 		const checkSelection = () => {
-			if (!this.isActive) return;
+			if (!this.isActive || !this.workspace) return;
 
-			const pair = findSplitViewPair();
+			const pair = findSplitViewPair(this.workspace);
 			if (!pair) return;
 
 			const { leftEditor, rightEditor, leftView, rightView } = pair;
