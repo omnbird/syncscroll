@@ -1,5 +1,6 @@
 import { Editor, MarkdownView, Workspace } from 'obsidian';
 import { findSplitViewPair } from './utils/workspace';
+import type { EditorWithCM } from './types';
 
 export class LineSyncManager {
 	private isActive = false;
@@ -103,10 +104,13 @@ export class LineSyncManager {
 		if (leftLineScreenY === null) return;
 
 		const rightLineLength = rightEditor.getLine(lineNumber).length;
-		const cm = (rightEditor as any).cm;
-		if (cm) {
-			cm.dispatch({
-				selection: { anchor: cm.state.doc.line(lineNumber + 1).from, head: cm.state.doc.line(lineNumber + 1).to },
+		const rightCM = (rightEditor as EditorWithCM).cm;
+		if (rightCM) {
+			rightCM.dispatch({
+				selection: { 
+					anchor: rightCM.state.doc.line(lineNumber + 1).from, 
+					head: rightCM.state.doc.line(lineNumber + 1).to 
+				},
 				scrollIntoView: false
 			});
 		} else {
@@ -158,10 +162,13 @@ export class LineSyncManager {
 		if (rightLineScreenY === null) return;
 
 		const leftLineLength = leftEditor.getLine(lineNumber).length;
-		const cm = (leftEditor as any).cm;
-		if (cm) {
-			cm.dispatch({
-				selection: { anchor: cm.state.doc.line(lineNumber + 1).from, head: cm.state.doc.line(lineNumber + 1).to },
+		const leftCM = (leftEditor as EditorWithCM).cm;
+		if (leftCM) {
+			leftCM.dispatch({
+				selection: { 
+					anchor: leftCM.state.doc.line(lineNumber + 1).from, 
+					head: leftCM.state.doc.line(lineNumber + 1).to 
+				},
 				scrollIntoView: false
 			});
 		} else {
@@ -204,9 +211,9 @@ export class LineSyncManager {
 			return rect.top;
 		}
 
-		const editor = view.editor;
+		const editor = view.editor as EditorWithCM;
 		try {
-			const cm = (editor as any).cm;
+			const cm = editor.cm;
 			if (cm) {
 				const line = cm.state.doc.line(lineNumber + 1);
 				if (line) {
@@ -216,8 +223,8 @@ export class LineSyncManager {
 					}
 				}
 			}
-		} catch (e) {
-			// 忽略错误
+		} catch {
+			// Ignore errors
 		}
 
 		const lines = scroller.querySelectorAll('.cm-line');

@@ -28,7 +28,7 @@ export class SyncScrollManager {
 		this.isActive = true;
 		this.percentageOffset = 0;
 		this.setupScrollSync();
-		new Notice('SyncScroll enabled');
+		new Notice('Enabled');
 	}
 
 	stop(): void {
@@ -46,7 +46,7 @@ export class SyncScrollManager {
 		this.syncPair = null;
 		this.percentageOffset = 0;
 		this.workspace = null;
-		new Notice('SyncScroll disabled');
+		new Notice('Disabled');
 	}
 
 	isRunning(): boolean {

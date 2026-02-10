@@ -50,7 +50,6 @@ function areViewsSideBySide(view1: MarkdownView, view2: MarkdownView): boolean {
 	const rect2 = view2.containerEl.getBoundingClientRect();
 
 	const horizontalOverlap = !(rect1.right < rect2.left || rect2.right < rect1.left);
-	const verticalOverlap = !(rect1.bottom < rect2.top || rect2.bottom < rect2.top);
 
 	return horizontalOverlap && Math.abs(rect1.top - rect2.top) < 100;
 }

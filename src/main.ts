@@ -46,7 +46,8 @@ export default class SyncScrollPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		const loadedData = await this.loadData() as Partial<SyncScrollSettings> | null;
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData ?? {});
 	}
 
 	async saveSettings() {
