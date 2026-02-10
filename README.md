@@ -54,12 +54,12 @@ This plugin solves it with one simple gesture: **triple-click any line to instan
 ### Triple-Click to Sync Lines
 Triple-click any line to instantly align both panes to the same line number.
 
-![Triple-click demo](https://github.com/omnbird/syncscroll/raw/main/assets/triclick.gif)
+![Triple-click demo](https://github.com/omnbird/syncscroll/raw/master/assets/triclick.gif)
 
 ### Scroll with Maintained Offset
 After alignment, scroll either pane and the other follows with the relative offset preserved.
 
-![Sync scroll demo](https://github.com/omnbird/syncscroll/raw/main/assets/syncscroll.gif)
+![Sync scroll demo](https://github.com/omnbird/syncscroll/raw/master/assets/syncscroll.gif)
 
 ## Support
 
