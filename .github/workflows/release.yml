@@ -25,10 +25,17 @@ jobs:
       - name: Build plugin
         run: npm run build
         
+      - name: Create release package
+        run: |
+          mkdir -p syncscroll
+          cp main.js manifest.json syncscroll/
+          zip -r syncscroll.zip syncscroll/
+          
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
+            syncscroll.zip
             main.js
             manifest.json
           draft: false

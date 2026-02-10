@@ -20,8 +20,8 @@ Sync scrolling and line jumping between side-by-side panes. Triple-click any lin
 
 ### Manual Installation
 
-1. Download the latest release from [GitHub Releases](https://github.com/omnbird/syncscroll/releases)
-2. Extract `main.js` and `manifest.json` to your vault's `.obsidian/plugins/syncscroll/` folder
+1. Download `syncscroll.zip` from [GitHub Releases](https://github.com/omnbird/syncscroll/releases)
+2. Extract to your vault's `.obsidian/plugins/` folder
 3. Enable in Obsidian Settings → Community Plugins
 
 ## Usage
