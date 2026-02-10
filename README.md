@@ -2,6 +2,12 @@
 
 Sync scrolling and line jumping between side-by-side panes. Triple-click any line to jump the other pane to the same line with horizontal alignment - perfect for comparing documents or reading translations.
 
+## Why I Built This Plugin
+
+I often translate English technical documents into Chinese while reading in Obsidian. The constant back-and-forth between source and translation was tedious—especially when documents have different lengths and scrolling gets them out of sync.
+
+This plugin solves it with one simple gesture: **triple-click any line to instantly align both panes**. No more manual scrolling or losing your place.
+
 ## Features
 
 - **Sync Scrolling**: When you scroll one pane, the other follows with percentage-based synchronization
@@ -45,8 +51,15 @@ Sync scrolling and line jumping between side-by-side panes. Triple-click any lin
 
 ## Demo
 
-![Demo GIF Placeholder]
-*Triple-click to sync lines, then scroll with maintained offset*
+### Triple-Click to Sync Lines
+Triple-click any line to instantly align both panes to the same line number.
+
+![Triple-click demo](https://github.com/omnbird/syncscroll/raw/main/assets/triclick.gif)
+
+### Scroll with Maintained Offset
+After alignment, scroll either pane and the other follows with the relative offset preserved.
+
+![Sync scroll demo](https://github.com/omnbird/syncscroll/raw/main/assets/syncscroll.gif)
 
 ## Support
 
