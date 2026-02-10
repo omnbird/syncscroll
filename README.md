@@ -1,6 +1,6 @@
 # SyncScroll
 
-Sync scrolling and line jumping between side-by-side panes. Triple-click any line to jump the other pane to the same line with horizontal alignment - perfect for comparing documents or reading translations.
+Sync scrolling between two different files in side-by-side panes. Triple-click any line to jump the other file to the same line with horizontal alignment - perfect for comparing documents or reading translations.
 
 ## Why I Built This Plugin
 
